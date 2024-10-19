@@ -22,5 +22,5 @@ Then, in the chat, enter `@customPrompts /custom /<Your Prompt name>` to invoke 
 
 Inspirations:
 
-- https://github.com/microsoft/vscode-extension-samples/tree/main/chat-sample)
+- https://github.com/microsoft/vscode-extension-samples/tree/main/chat-sample
 - https://github.com/wolfsilver/friday
