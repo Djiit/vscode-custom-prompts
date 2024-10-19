@@ -16,23 +16,28 @@ export interface PromptProps extends BasePromptElementProps {
   }[];
 }
 
-const ignoreKey = ["has", "get", "update", "inspect"];
+export const getCustomConfigMap = () => {
+  const map: Record<string, string> = {};
+  const ignoreKey = ["has", "get", "update", "inspect"];
+  const config = vscode.workspace.getConfiguration("customPrompts.prompts");
+  for (const key in config) {
+    if (
+      Object.prototype.hasOwnProperty.call(config, key) &&
+      !ignoreKey.includes(key)
+    ) {
+      const prompt = config[key];
+      map[key] = prompt;
+    }
+  }
+  return map;
+};
 
 export class Prompt extends PromptElement<PromptProps, void> {
   private customConfigMap: Record<string, string> = {};
 
   constructor(props: PromptProps) {
     super(props);
-    const config = vscode.workspace.getConfiguration("customPrompts.prompts");
-    for (const key in config) {
-      if (
-        Object.prototype.hasOwnProperty.call(config, key) &&
-        !ignoreKey.includes(key)
-      ) {
-        const prompt = config[key];
-        this.customConfigMap[key] = prompt;
-      }
-    }
+    this.customConfigMap = getCustomConfigMap();
   }
 
   render(state: void, sizing: PromptSizing) {

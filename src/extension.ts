@@ -1,6 +1,6 @@
 import { renderPrompt } from "@vscode/prompt-tsx";
 import * as vscode from "vscode";
-import { Prompt, PromptProps } from "./play";
+import { getCustomConfigMap, Prompt, PromptProps } from "./play";
 import { VsCodeFS } from "./utils";
 
 const CUSTOM_PROMPTS_NAMES_COMMAND_ID = "customPrompts.namesInEditor";
@@ -23,7 +23,7 @@ export function activate(context: vscode.ExtensionContext) {
     request: vscode.ChatRequest,
     context: vscode.ChatContext,
     stream: vscode.ChatResponseStream,
-    token: vscode.CancellationToken
+    token: vscode.CancellationToken,
   ): Promise<ICustomPromptsChatResult> => {
     // To talk to an LLM in your subcommand handler implementation, your
     // extension can use VS Code's `requestChatAccess` API to access the Copilot API.
@@ -37,11 +37,11 @@ export function activate(context: vscode.ExtensionContext) {
             stream.reference(reference.value);
 
             const languageId = await VsCodeFS.getLanguageId(
-              reference.value.fsPath
+              reference.value.fsPath,
             );
             const content = await VsCodeFS.readFileOrOpenDocumentContent(
               reference.value.fsPath,
-              "utf-8"
+              "utf-8",
             );
             references.push({
               fileName: (reference as any).name,
@@ -69,10 +69,20 @@ export function activate(context: vscode.ExtensionContext) {
 
       if (request.command === "load") {
         stream.progress("Thinking ...");
+        const prompts = getCustomConfigMap();
         const command = request.prompt.match(/(?<=\/)\w+/)?.[0] || "";
 
         if (command === "") {
-          stream.markdown("Please provide a prompt to load.");
+          stream.markdown(
+            "Empty prompt name. Please provide a prompt to load.",
+          );
+          return { metadata: { command: "" } };
+        }
+
+        if (!Object.keys(prompts).includes(command)) {
+          stream.markdown(
+            "Unknown prompt name. Please provide a prompt to load.",
+          );
           return { metadata: { command: "" } };
         }
 
@@ -88,7 +98,7 @@ export function activate(context: vscode.ExtensionContext) {
                 references: references,
               },
               { modelMaxPromptTokens: model.maxInputTokens },
-              model
+              model,
             );
 
             const chatResponse = await model.sendRequest(messages, {}, token);
@@ -118,7 +128,7 @@ export function activate(context: vscode.ExtensionContext) {
               references: references,
             },
             { modelMaxPromptTokens: model.maxInputTokens },
-            model
+            model,
           );
 
           const chatResponse = await model.sendRequest(messages, {}, token);
@@ -160,7 +170,7 @@ export function activate(context: vscode.ExtensionContext) {
   // that appear when you type `/`.
   const customPrompts = vscode.chat.createChatParticipant(
     CUSTOM_PROMPTS_PARTICIPANT_ID,
-    handler
+    handler,
   );
   // customPrompts.iconPath = vscode.Uri.joinPath(
   //   context.extensionUri,
@@ -187,8 +197,8 @@ export function activate(context: vscode.ExtensionContext) {
         logger.logUsage("chatResultFeedback", {
           kind: feedback.kind,
         });
-      }
-    )
+      },
+    ),
   );
 
   context.subscriptions.push(
@@ -204,7 +214,7 @@ export function activate(context: vscode.ExtensionContext) {
           const [model] = await vscode.lm.selectChatModels(MODEL_SELECTOR);
           if (!model) {
             console.log(
-              "Model not found. Please make sure the GitHub Copilot Chat extension is installed and enabled."
+              "Model not found. Please make sure the GitHub Copilot Chat extension is installed and enabled.",
             );
             return;
           }
@@ -213,7 +223,7 @@ export function activate(context: vscode.ExtensionContext) {
           chatResponse = await model.sendRequest(
             messages,
             {},
-            new vscode.CancellationTokenSource().token
+            new vscode.CancellationTokenSource().token,
           );
         } catch (err) {
           if (err instanceof vscode.LanguageModelError) {
@@ -230,8 +240,8 @@ export function activate(context: vscode.ExtensionContext) {
           const end = new vscode.Position(
             textEditor.document.lineCount - 1,
             textEditor.document.lineAt(
-              textEditor.document.lineCount - 1
-            ).text.length
+              textEditor.document.lineCount - 1,
+            ).text.length,
           );
           edit.delete(new vscode.Range(start, end));
         });
@@ -241,11 +251,11 @@ export function activate(context: vscode.ExtensionContext) {
           for await (const fragment of chatResponse.text) {
             await textEditor.edit((edit) => {
               const lastLine = textEditor.document.lineAt(
-                textEditor.document.lineCount - 1
+                textEditor.document.lineCount - 1,
               );
               const position = new vscode.Position(
                 lastLine.lineNumber,
-                lastLine.text.length
+                lastLine.text.length,
               );
               edit.insert(position, fragment);
             });
@@ -254,24 +264,24 @@ export function activate(context: vscode.ExtensionContext) {
           // async response stream may fail, e.g network interruption or server side error
           await textEditor.edit((edit) => {
             const lastLine = textEditor.document.lineAt(
-              textEditor.document.lineCount - 1
+              textEditor.document.lineCount - 1,
             );
             const position = new vscode.Position(
               lastLine.lineNumber,
-              lastLine.text.length
+              lastLine.text.length,
             );
             edit.insert(position, (<Error>err).message);
           });
         }
-      }
-    )
+      },
+    ),
   );
 }
 
 function handleError(
   logger: vscode.TelemetryLogger,
   err: any,
-  stream: vscode.ChatResponseStream
+  stream: vscode.ChatResponseStream,
 ): void {
   // making the chat request might fail because
   // - model does not exist
@@ -284,8 +294,8 @@ function handleError(
     if (err.cause instanceof Error && err.cause.message.includes("off_topic")) {
       stream.markdown(
         vscode.l10n.t(
-          "I'm sorry, I can only explain computer science concepts."
-        )
+          "I'm sorry, I can only explain computer science concepts.",
+        ),
       );
     }
   } else {
