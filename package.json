@@ -48,7 +48,8 @@
     "package": "vsce package",
     "publish": "vsce publish",
     "pretest": "npm run compile",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "prepare": "husky"
   },
   "dependencies": {
     "@vscode/prompt-tsx": "^0.2.10-alpha"
@@ -62,6 +63,9 @@
     "@vscode/test-electron": "^2.4.1",
     "@vscode/vsce": "^3.2.0",
     "eslint": "^8.26.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
     "typescript": "^5.5.2"
   }
 }
