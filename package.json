@@ -51,7 +51,7 @@
     "test": "vscode-test"
   },
   "dependencies": {
-    "@vscode/prompt-tsx": "^0.2.10-alpha"
+    "@vscode/prompt-tsx": "^0.3.0-alpha.8"
   },
   "devDependencies": {
     "@types/node": "^20.5.9",
