@@ -1,0 +1,63 @@
+{
+  "name": "vscode-custom-prompts",
+  "publisher": "Djiit",
+  "displayName": "Custom Prompts for GitHub Copilot Chat",
+  "description": "GitHub Copilot chat extension enabling re-use of prompts across developer teams.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Djiit/vscode-custom-prompts"
+  },
+  "version": "0.1.0",
+  "engines": {
+    "vscode": "^1.92.0"
+  },
+  "categories": [
+    "AI",
+    "Chat"
+  ],
+  "activationEvents": [],
+  "contributes": {
+    "chatParticipants": [
+      {
+        "id": "copilot.customPrompts",
+        "name": "customPrompts",
+        "description": "Hello! What can I do for you?",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "load",
+            "description": "Load custom prompt",
+            "isSticky": true
+          }
+        ]
+      }
+    ],
+    "commands": [
+      {
+        "command": "customPrompts.namesInEditor",
+        "title": "Use customPrompts in Editor"
+      }
+    ]
+  },
+  "main": "./out/extension.js",
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "lint": "eslint \"src/**/*.ts\"",
+    "watch": "tsc -watch -p ./",
+    "package": "vsce package",
+    "publish": "vsce publish"
+  },
+  "dependencies": {
+    "@vscode/prompt-tsx": "^0.2.10-alpha"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "@types/vscode": "^1.92.0",
+    "@typescript-eslint/eslint-plugin": "^7.14.0",
+    "@typescript-eslint/parser": "^7.14.0",
+    "@vscode/vsce": "^3.2.0",
+    "eslint": "^8.26.0",
+    "typescript": "^5.5.2"
+  }
+}

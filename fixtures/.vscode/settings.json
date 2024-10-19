@@ -1,0 +1,5 @@
+{
+  "customPrompts.prompts": {
+    "PrefixwithLegacy": "Rename functions with the 'legacy_' prefix."
+  }
+}
