@@ -81,7 +81,7 @@
     "format": "prettier --write .",
     "watch": "tsc -watch -p ./",
     "package": "vsce package",
-    "publish": "vsce publish",
+    "deploy": "vsce publish",
     "pretest": "npm run compile",
     "test": "vscode-test",
     "prepare": "husky"
@@ -93,7 +93,7 @@
     "@commitlint/cli": "^19.5.0",
     "@commitlint/config-conventional": "^19.5.0",
     "@types/node": "^22.7.7",
-    "@types/vscode": "^1.94.0",
+    "@types/vscode": "^1.92.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
     "@vscode/vsce": "^3.2.0",

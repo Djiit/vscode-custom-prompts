@@ -4,6 +4,9 @@ updates:
     directory: "/"
     schedule:
       interval: weekly
+    ignore:
+      # Must match package.json "engines.vscode" value
+      - dependency-name: "@types/vscode"
   - package-ecosystem: "devcontainers"
     directory: "/"
     schedule:
