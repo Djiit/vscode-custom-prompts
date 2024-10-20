@@ -17,7 +17,7 @@
     "email": "julien.tanay@gmail.com"
   },
   "license": "SEE LICENSE IN LICENSE",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "engines": {
     "vscode": "^1.92.0"
   },
@@ -34,18 +34,18 @@
   ],
   "badges": [
     {
-      "url": "https://vsmarketplacebadges.dev/version-short/Djiit.custom-prompts.svg",
-      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
+      "url": "https://vsmarketplacebadges.dev/version-short/Djiit.vscode-custom-prompts.svg",
+      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.vscode-custom-prompts",
       "description": "Visual Studio Marketplace Version"
     },
     {
-      "url": "https://vsmarketplacebadges.dev/installs-short/Djiit.custom-prompts.svg",
-      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
+      "url": "https://vsmarketplacebadges.dev/installs-short/Djiit.vscode-custom-prompts.svg",
+      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.vscode-custom-prompts",
       "description": "Visual Studio Marketplace Installs"
     },
     {
-      "url": "https://vsmarketplacebadges.dev/rating-star/Djiit.custom-prompts.svg",
-      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
+      "url": "https://vsmarketplacebadges.dev/rating-short/Djiit.vscode-custom-prompts.svg",
+      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.vscode-custom-prompts",
       "description": "Visual Studio Marketplace Rating"
     }
   ],
