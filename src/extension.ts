@@ -1,7 +1,7 @@
 import { renderPrompt } from "@vscode/prompt-tsx";
 import * as vscode from "vscode";
-import { getCustomConfigMap, Prompt, PromptProps } from "./play";
-import { VsCodeFS } from "./utils";
+import { getCustomConfigMap, Prompt, PromptProps } from "./play.js";
+import { VsCodeFS } from "./utils.js";
 
 const CUSTOM_PROMPTS_NAMES_COMMAND_ID = "customPrompts.namesInEditor";
 const CUSTOM_PROMPTS_PARTICIPANT_ID = "copilot.customPrompts";
@@ -21,16 +21,15 @@ const MODEL_SELECTOR: vscode.LanguageModelChatSelector = {
 export function activate(context: vscode.ExtensionContext) {
   const handler: vscode.ChatRequestHandler = async (
     request: vscode.ChatRequest,
-    context: vscode.ChatContext,
+    _context: vscode.ChatContext,
     stream: vscode.ChatResponseStream,
     token: vscode.CancellationToken,
   ): Promise<ICustomPromptsChatResult> => {
     // To talk to an LLM in your subcommand handler implementation, your
     // extension can use VS Code's `requestChatAccess` API to access the Copilot API.
     // The GitHub Copilot Chat extension implements this provider.
-
     if (request.command) {
-      let references: PromptProps["references"] = [];
+      const references: PromptProps["references"] = [];
       if (request.references?.length > 0) {
         for (const reference of request.references) {
           if (reference.value instanceof vscode.Uri) {
@@ -44,6 +43,7 @@ export function activate(context: vscode.ExtensionContext) {
               "utf-8",
             );
             references.push({
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
               fileName: (reference as any).name,
               languageId,
               content,
@@ -206,6 +206,7 @@ export function activate(context: vscode.ExtensionContext) {
     // Register the command handler for the /meow followup
     vscode.commands.registerTextEditorCommand(
       CUSTOM_PROMPTS_NAMES_COMMAND_ID,
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
       async (textEditor: vscode.TextEditor) => {
         const text = textEditor.document.getText();
 
@@ -280,15 +281,13 @@ export function activate(context: vscode.ExtensionContext) {
 
 function handleError(
   logger: vscode.TelemetryLogger,
-  err: any,
+  err: unknown,
   stream: vscode.ChatResponseStream,
 ): void {
   // making the chat request might fail because
   // - model does not exist
   // - user consent not given
   // - quote limits exceeded
-  logger.logError(err);
-
   if (err instanceof vscode.LanguageModelError) {
     console.log(err.message, err.code, err.cause);
     if (err.cause instanceof Error && err.cause.message.includes("off_topic")) {
@@ -300,6 +299,9 @@ function handleError(
     }
   } else {
     // re-throw other errors so they show up in the UI
+    if (err instanceof Error) {
+      logger.logError(err.name, err);
+    }
     throw err;
   }
 }

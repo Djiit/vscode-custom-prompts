@@ -10,9 +10,9 @@
     "jsx": "react",
     "jsxFactory": "vscpp",
     "jsxFragmentFactory": "vscppf",
-    "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
-    "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */
-    // "noUnusedParameters": true /* Report errors on unused parameters. */
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": true
   },
   "exclude": ["node_modules", ".vscode-test", "fixtures", "out"]
 }

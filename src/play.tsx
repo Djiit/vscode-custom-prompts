@@ -1,7 +1,6 @@
 import {
   BasePromptElementProps,
   PromptElement,
-  PromptSizing,
   UserMessage,
 } from "@vscode/prompt-tsx";
 import * as vscode from "vscode";
@@ -25,8 +24,8 @@ export const getCustomConfigMap = () => {
       Object.prototype.hasOwnProperty.call(config, key) &&
       !ignoreKey.includes(key)
     ) {
-      const prompt = config[key];
-      map[key] = prompt;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      map[key] = config[key];
     }
   }
   return map;
@@ -40,9 +39,10 @@ export class Prompt extends PromptElement<PromptProps, void> {
     this.customConfigMap = getCustomConfigMap();
   }
 
-  render(state: void, sizing: PromptSizing) {
+  render() {
     const { command, userQuery, references } = this.props;
     const preDefinedPrompts = this.customConfigMap[command];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return (
       <>
         {preDefinedPrompts ? (
@@ -52,7 +52,8 @@ export class Prompt extends PromptElement<PromptProps, void> {
         {userQuery ? <UserMessage>{userQuery}</UserMessage> : undefined}
 
         {references && references?.length > 0
-          ? references?.map((reference, index) => (
+          ? references?.map((reference) => (
+              // eslint-disable-next-line @typescript-eslint/no-unsafe-return
               <UserMessage>
                 # {reference.fileName.toUpperCase()} CONTEXT
                 <br />
