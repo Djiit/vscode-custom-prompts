@@ -3,10 +3,20 @@
   "publisher": "Djiit",
   "displayName": "Custom Prompts for GitHub Copilot Chat",
   "description": "GitHub Copilot chat extension enabling re-use of prompts across developer teams.",
+  "homepage": "https://github.com/Djiit/vscode-custom-prompts/blob/main/README.md",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Djiit/vscode-custom-prompts"
+    "url": "https://github.com/Djiit/vscode-custom-prompts.git"
   },
+  "bugs": {
+    "url": "https://github.com/Djiit/vscode-custom-prompts/issues",
+    "email": "julien.tanay@gmail.com"
+  },
+  "author": {
+    "name": "Djiit",
+    "email": "julien.tanay@gmail.com"
+  },
+  "license": "SEE LICENSE IN LICENSE",
   "version": "0.1.0",
   "engines": {
     "vscode": "^1.92.0"
@@ -14,6 +24,30 @@
   "categories": [
     "AI",
     "Chat"
+  ],
+  "keywords": [
+    "copilot",
+    "chat",
+    "prompts",
+    "team",
+    "enterprise"
+  ],
+  "badges": [
+    {
+      "url": "https://vsmarketplacebadge.apphb.com/version-short/Djiit.custom-prompts.svg",
+      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
+      "description": "Visual Studio Marketplace Version"
+    },
+    {
+      "url": "https://vsmarketplacebadge.apphb.com/installs-short/Djiit.custom-prompts.svg",
+      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
+      "description": "Visual Studio Marketplace Installs"
+    },
+    {
+      "url": "https://vsmarketplacebadge.apphb.com/rating-star/Djiit.custom-prompts.svg",
+      "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
+      "description": "Visual Studio Marketplace Rating"
+    }
   ],
   "activationEvents": [],
   "contributes": {
