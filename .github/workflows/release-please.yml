@@ -34,4 +34,6 @@ jobs:
 
       - name: Build and publish packages
         if: ${{ steps.release.outputs.release_created == 'true' }}
-        run: npm run publish
+        run: npm run deploy
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
