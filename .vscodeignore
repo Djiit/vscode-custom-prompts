@@ -1,5 +1,4 @@
 .devcontainer/**
-.eslintrc.json
 .github/**
 .gitignore
 .husky/**
@@ -10,12 +9,13 @@
 .vscode/**
 **/*.map
 **/*.ts
-commitlint.config.js
+commitlint.config.mjs
+eslint.config.mjs
 fixtures/**
-lint-staged.config.js
+lint-staged.config.mjs
 NOTES.md
 out/test/**
-prettier.config.js
-release-please.config.json
+prettier.config.mjs
+release-please-config.json
 src/**
 tsconfig.json

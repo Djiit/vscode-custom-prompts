@@ -14,5 +14,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true
   },
-  "exclude": ["node_modules", ".vscode-test", "fixtures", "out"]
+  "exclude": ["node_modules", "fixtures", "out", "test"]
 }
