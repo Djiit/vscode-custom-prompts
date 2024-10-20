@@ -32,8 +32,14 @@ jobs:
           node-version-file: .nvmrc
           cache: "npm"
 
-      - name: Build and publish packages
+      - name: Build and publish on VS Code Marketplace
         if: ${{ steps.release.outputs.release_created == 'true' }}
         run: npm run deploy
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Build and publish on Open VSX Registry
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        run: npm run deploy:ovsx
+        env:
+          OVSX_PAT: ${{ secrets.OVSX_PAT }}

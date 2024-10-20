@@ -3,6 +3,7 @@
   "plugins": ["node-workspace", "sentence-case"],
   "bump-minor-pre-major": true,
   "release-type": "node",
+  "include-component-in-tag": false,
   "packages": {
     ".": {}
   }

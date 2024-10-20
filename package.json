@@ -82,6 +82,7 @@
     "watch": "tsc -watch -p ./",
     "package": "vsce package",
     "deploy": "vsce publish",
+    "deploy:ovsx": "ovsx publish",
     "pretest": "npm run compile",
     "test": "vscode-test",
     "prepare": "husky"
@@ -100,6 +101,7 @@
     "eslint": "^9.13.0",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
+    "ovsx": "^0.10.0",
     "prettier": "^3.3.3",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.10.0"
