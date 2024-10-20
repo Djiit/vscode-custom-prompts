@@ -34,17 +34,17 @@
   ],
   "badges": [
     {
-      "url": "https://vsmarketplacebadge.apphb.com/version-short/Djiit.custom-prompts.svg",
+      "url": "https://vsmarketplacebadges.dev/version-short/Djiit.custom-prompts.svg",
       "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
       "description": "Visual Studio Marketplace Version"
     },
     {
-      "url": "https://vsmarketplacebadge.apphb.com/installs-short/Djiit.custom-prompts.svg",
+      "url": "https://vsmarketplacebadges.dev/installs-short/Djiit.custom-prompts.svg",
       "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
       "description": "Visual Studio Marketplace Installs"
     },
     {
-      "url": "https://vsmarketplacebadge.apphb.com/rating-star/Djiit.custom-prompts.svg",
+      "url": "https://vsmarketplacebadges.dev/rating-star/Djiit.custom-prompts.svg",
       "href": "https://marketplace.visualstudio.com/items?itemName=Djiit.custom-prompts",
       "description": "Visual Studio Marketplace Rating"
     }
