@@ -1,0 +1,37 @@
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
+
+name: Release Please
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Release-Please
+        uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+
+      - name: Install Node.js
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: "npm"
+
+      - name: Build and publish packages
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        run: npm run publish
