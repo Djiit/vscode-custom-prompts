@@ -1,8 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
-  "plugins": ["node-workspace", "sentence-case"],
   "bump-minor-pre-major": true,
-  "release-type": "node",
   "include-component-in-tag": false,
   "packages": {
     ".": {}
