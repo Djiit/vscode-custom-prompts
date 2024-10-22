@@ -32,6 +32,10 @@ jobs:
           node-version-file: .nvmrc
           cache: "npm"
 
+      - name: Install dependencies
+        if: ${{ steps.release.outputs.release_created == 'true' }}
+        run: npm ci
+
       - name: Build and publish on VS Code Marketplace
         if: ${{ steps.release.outputs.release_created == 'true' }}
         run: npm run deploy
