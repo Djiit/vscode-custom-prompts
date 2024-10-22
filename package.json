@@ -32,6 +32,9 @@
     "team",
     "enterprise"
   ],
+  "extensionDependencies": [
+    "GitHub.copilot-chat"
+  ],
   "badges": [
     {
       "url": "https://vsmarketplacebadges.dev/version-short/Djiit.vscode-custom-prompts.svg",
@@ -55,23 +58,62 @@
       {
         "id": "copilot.customPrompts",
         "name": "customPrompts",
-        "description": "Hello! What can I do for you?",
+        "description": "Load custom prompts with /load",
         "isSticky": true,
         "commands": [
           {
             "name": "load",
-            "description": "Load custom prompt",
+            "description": "Load a prompt using its command name",
             "isSticky": true
           }
         ]
       }
     ],
-    "commands": [
-      {
-        "command": "customPrompts.namesInEditor",
-        "title": "Use customPrompts in Editor"
+    "configuration": {
+      "type": "object",
+      "title": "Custom Prompts Configuration",
+      "properties": {
+        "customPrompts": {
+          "type": "object",
+          "title": "Custom Prompts",
+          "description": "Custom Prompts configuration",
+          "required": [
+            "prompts"
+          ],
+          "properties": {
+            "prompts": {
+              "type": "array",
+              "description": "List of custom prompts",
+              "items": {
+                "type": "object",
+                "required": [
+                  "command",
+                  "content"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the prompt"
+                  },
+                  "command": {
+                    "type": "string",
+                    "description": "Command to trigger the prompt"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the prompt"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Content of the prompt"
+                  }
+                }
+              }
+            }
+          }
+        }
       }
-    ]
+    }
   },
   "main": "./out/extension.js",
   "scripts": {

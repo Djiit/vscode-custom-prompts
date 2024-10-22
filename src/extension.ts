@@ -1,9 +1,13 @@
 import { renderPrompt } from "@vscode/prompt-tsx";
 import * as vscode from "vscode";
-import { getCustomConfigMap, Prompt, PromptProps } from "./play.js";
+import {
+  getCustomPrompts,
+  getCustomPromptContent,
+  Prompt,
+  PromptProps,
+} from "./play.js";
 import { VsCodeFS } from "./utils.js";
 
-const CUSTOM_PROMPTS_NAMES_COMMAND_ID = "customPrompts.namesInEditor";
 const CUSTOM_PROMPTS_PARTICIPANT_ID = "copilot.customPrompts";
 
 interface ICustomPromptsChatResult extends vscode.ChatResult {
@@ -69,7 +73,7 @@ export function activate(context: vscode.ExtensionContext) {
 
       if (request.command === "load") {
         stream.progress("Thinking ...");
-        const prompts = getCustomConfigMap();
+        const prompts = getCustomPrompts();
         const command = request.prompt.match(/(?<=\/)\w+/)?.[0] || "";
 
         if (command === "") {
@@ -79,9 +83,10 @@ export function activate(context: vscode.ExtensionContext) {
           return { metadata: { command: "" } };
         }
 
-        if (!Object.keys(prompts).includes(command)) {
+        const prompt = getCustomPromptContent(prompts, command);
+        if (prompt === undefined) {
           stream.markdown(
-            "Unknown prompt name. Please provide a prompt to load.",
+            "Unknown prompt command. Please provide a prompt to load.",
           );
           return { metadata: { command: "" } };
         }
@@ -201,82 +206,7 @@ export function activate(context: vscode.ExtensionContext) {
     ),
   );
 
-  context.subscriptions.push(
-    customPrompts,
-    // Register the command handler for the /meow followup
-    vscode.commands.registerTextEditorCommand(
-      CUSTOM_PROMPTS_NAMES_COMMAND_ID,
-      // eslint-disable-next-line @typescript-eslint/no-misused-promises
-      async (textEditor: vscode.TextEditor) => {
-        const text = textEditor.document.getText();
-
-        let chatResponse: vscode.LanguageModelChatResponse | undefined;
-        try {
-          const [model] = await vscode.lm.selectChatModels(MODEL_SELECTOR);
-          if (!model) {
-            console.log(
-              "Model not found. Please make sure the GitHub Copilot Chat extension is installed and enabled.",
-            );
-            return;
-          }
-
-          const messages = [vscode.LanguageModelChatMessage.User(text)];
-          chatResponse = await model.sendRequest(
-            messages,
-            {},
-            new vscode.CancellationTokenSource().token,
-          );
-        } catch (err) {
-          if (err instanceof vscode.LanguageModelError) {
-            console.log(err.message, err.code, err.cause);
-          } else {
-            throw err;
-          }
-          return;
-        }
-
-        // Clear the editor content before inserting new content
-        await textEditor.edit((edit) => {
-          const start = new vscode.Position(0, 0);
-          const end = new vscode.Position(
-            textEditor.document.lineCount - 1,
-            textEditor.document.lineAt(
-              textEditor.document.lineCount - 1,
-            ).text.length,
-          );
-          edit.delete(new vscode.Range(start, end));
-        });
-
-        // Stream the code into the editor as it is coming in from the Language Model
-        try {
-          for await (const fragment of chatResponse.text) {
-            await textEditor.edit((edit) => {
-              const lastLine = textEditor.document.lineAt(
-                textEditor.document.lineCount - 1,
-              );
-              const position = new vscode.Position(
-                lastLine.lineNumber,
-                lastLine.text.length,
-              );
-              edit.insert(position, fragment);
-            });
-          }
-        } catch (err) {
-          // async response stream may fail, e.g network interruption or server side error
-          await textEditor.edit((edit) => {
-            const lastLine = textEditor.document.lineAt(
-              textEditor.document.lineCount - 1,
-            );
-            const position = new vscode.Position(
-              lastLine.lineNumber,
-              lastLine.text.length,
-            );
-            edit.insert(position, (<Error>err).message);
-          });
-        }
-      },
-    ),
-  );
+  context.subscriptions.push(customPrompts);
 }
 
 function handleError(

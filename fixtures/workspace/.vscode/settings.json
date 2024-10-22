@@ -1,5 +1,16 @@
 {
-  "customPrompts.prompts": {
-    "PrefixWithLegacy": "Rename functions with the 'legacy_' prefix."
+  "customPrompts": {
+    "prompts": [
+      {
+        "command": "prefixwithlegacy",
+        "name": "Refactor: prefix with 'legacy_'",
+        "description": "Use this to rename functions with the 'legacy_' prefix.",
+        "content": "Rename functions with the 'legacy_' prefix."
+      },
+      {
+        "command": "prefixwithhello",
+        "content": "Rename functions with the 'hello_' prefix."
+      }
+    ]
   }
 }

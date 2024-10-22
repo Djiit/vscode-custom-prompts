@@ -15,42 +15,49 @@ export interface PromptProps extends BasePromptElementProps {
   }[];
 }
 
-export const getCustomConfigMap = () => {
-  const map: Record<string, string> = {};
-  const ignoreKey = ["has", "get", "update", "inspect"];
-  const config = vscode.workspace.getConfiguration("customPrompts.prompts");
-  for (const key in config) {
-    if (
-      Object.prototype.hasOwnProperty.call(config, key) &&
-      !ignoreKey.includes(key)
-    ) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      map[key] = config[key];
-    }
-  }
-  return map;
+export type customPrompt = {
+  command: string;
+  content: string;
+  name?: string;
+  description?: string;
+};
+
+export const getCustomPrompts = (): customPrompt[] => {
+  const extensionConfig = vscode.workspace.getConfiguration("customPrompts");
+  const customPrompts = extensionConfig.get("prompts") || [];
+  return customPrompts as customPrompt[];
+};
+
+export const getCustomPromptContent = (
+  customPrompts: customPrompt[],
+  command: string,
+): string | undefined => {
+  return customPrompts.find(
+    (prompt) => prompt.command.toLowerCase() === command.toLowerCase(),
+  )?.content;
 };
 
 export class Prompt extends PromptElement<PromptProps, void> {
-  private customConfigMap: Record<string, string> = {};
+  private customPrompts: customPrompt[] = [];
 
   constructor(props: PromptProps) {
     super(props);
-    this.customConfigMap = getCustomConfigMap();
+    this.customPrompts = getCustomPrompts();
+  }
+
+  getPrompt(command: string) {
+    return getCustomPromptContent(this.customPrompts, command);
   }
 
   render() {
     const { command, userQuery, references } = this.props;
-    const preDefinedPrompts = this.customConfigMap[command];
+    const customPrompt = getCustomPromptContent(this.customPrompts, command);
+
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return (
       <>
-        {preDefinedPrompts ? (
-          <UserMessage>{preDefinedPrompts}</UserMessage>
-        ) : undefined}
-
+        {customPrompt ? <UserMessage>{customPrompt}</UserMessage> : undefined}
         {userQuery ? <UserMessage>{userQuery}</UserMessage> : undefined}
-
         {references && references?.length > 0
           ? references?.map((reference) => (
               // eslint-disable-next-line @typescript-eslint/no-unsafe-return

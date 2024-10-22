@@ -8,11 +8,18 @@ Use `@customPrompts` to invoke the assistant, then select the desired command.
 
 Add custom prompts in `settings.json` as follows:
 
-```json
+```jsonc
 {
-  "customPrompts.prompts": {
-    "<Your Prompt name>": "<Your prompt content>."
-  }
+  "customPrompts": {
+    "prompts": [
+      {
+        "command": "prefixwithlegacy",
+        "content": "Rename functions with the 'legacy_' prefix.",
+        "name": "Refactor: prefix with 'legacy_'", // optional
+        "description": "Use this to rename functions with the 'legacy_' prefix.", // optional
+      },
+    ],
+  },
 }
 ```
 
