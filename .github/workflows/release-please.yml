@@ -44,6 +44,8 @@ jobs:
 
       - name: Build and publish on Open VSX Registry
         if: ${{ steps.release.outputs.release_created == 'true' }}
-        run: npm run deploy:ovsx
+        run: |
+          jq -r 'del(.extensionDependencies)' package.json > package.tmp && mv package.tmp package.json
+          npm run deploy:ovsx
         env:
           OVSX_PAT: ${{ secrets.OVSX_PAT }}
