@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/Djiit/vscode-custom-prompts/compare/v0.3.0...v0.3.1) (2024-10-23)
+
+
+### Bug Fixes
+
+* improve README instructions ([b54f024](https://github.com/Djiit/vscode-custom-prompts/commit/b54f02493d527c9957758388b81ad0be4a418ca1))
+
 ## [0.3.0](https://github.com/Djiit/vscode-custom-prompts/compare/v0.2.0...v0.3.0) (2024-10-22)
 
 
