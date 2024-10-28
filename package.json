@@ -130,7 +130,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@vscode/prompt-tsx": "^0.3.0-alpha.8"
+    "@vscode/prompt-tsx": "^0.3.0-alpha.12"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.5.0",
